@@ -34,7 +34,7 @@ def tagImage(cluster_name, env_name, action) {
 pipeline{
 	agent any
 	environment{
-		def CLUSTER_NAME = "openshift-4.3"
+		def CLUSTER_NAME = "openshift-4.6"
 		def ENV_DEV = "development"
 		def ENV_TEST = "testing"
 		def ENV_PROD = "production"
