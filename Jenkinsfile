@@ -1,10 +1,10 @@
 node{
   stage('build & deploy') {
     openshiftBuild bldCfg: 'hellopythonapp',
-    namespace: 'i3development',
+    namespace: 'development',
       showBuildLogs: 'true'
     openshiftVerifyDeployment depCfg: 'hellopythonapp',
-      namespace: 'i3development'
+      namespace: 'development'
   }
 
   stage('approval (test)') {
@@ -14,28 +14,28 @@ node{
 
   stage('deploy to test') {
     openshiftTag srcStream: 'hellopythonapp',
-      namespace: 'i3development',
+      namespace: 'development',
       srcTag: 'latest',
-      destinationNamespace: 'i3testing',
+      destinationNamespace: 'testing',
       destStream: 'hellopythonapp',
       destTag: 'test'
     openshiftVerifyDeployment depCfg: 'hellopythonapp',
-      namespace: 'i3testing'
+      namespace: 'testing'
   }
 
-  stage('approval (i3production)') {
+  stage('approval (production)') {
     input message: 'Approve for production?',
       id: 'approval'
   }
 
   stage('deploy to production') {
     openshiftTag srcStream: 'hellopythonapp',
-      namespace: 'i3development',
+      namespace: 'development',
       srcTag: 'latest',
-      destinationNamespace: 'i3production',
+      destinationNamespace: 'production',
       destStream: 'hellopythonapp',
       destTag: 'prod'
     openshiftVerifyDeployment depCfg: 'hellopythonapp',
-      namespace: 'i3production'
+      namespace: 'production'
   }
 }
